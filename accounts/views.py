@@ -18,7 +18,7 @@ def user_regist(request):
     serializers = UserSerializer(data= request.data)
     if serializers.is_valid(raise_exception=True):
         serializers.save()
-        return create_access_token(request.data)
+        return Response(serializers.data)
 
 @api_view(["POST"])
 @permission_classes([AllowAny])
