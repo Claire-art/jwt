@@ -1,7 +1,7 @@
 from django.urls import is_valid_path
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
-
+from rest_framework.decorators import api_view , permission_classes
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from .models import Movie , Review
 from .serializer import MovieListSerializer , ReviewListSerializer
 from django.shortcuts import render,get_object_or_404
@@ -9,6 +9,7 @@ from django.shortcuts import render,get_object_or_404
 # Create your views here.
 
 @api_view(['GET','POST'])
+@permission_classes([IsAuthenticated])
 def movie_list_create(request):
 
     if request.method == 'GET':
@@ -28,6 +29,7 @@ def movie_list_create(request):
 
 
 @api_view(['GET','PATCH','DELETE'])
+@permission_classes([IsAuthenticated])
 def movie_detail_update_delete(request,movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
 
@@ -50,6 +52,7 @@ def movie_detail_update_delete(request,movie_pk):
 
 
 @api_view(['GET','POST'])
+@permission_classes([IsAuthenticated])
 def review_list_create(request, movie_pk):  
     _movie = Movie.objects.get(pk = movie_pk)
 
@@ -71,6 +74,7 @@ def review_list_create(request, movie_pk):
 
 
 @api_view(['GET','PATCH','DELETE'])
+@permission_classes([IsAuthenticated])
 def review_detail_update_delete(request,movie_pk,review_pk):
     review = get_object_or_404(Review, pk=review_pk)
 
